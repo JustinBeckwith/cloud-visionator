@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "name": "a banana",
+      "labels": [
+        "banana"
+      ]
+    }, {
+      "name": "a drink",
+      "labels": [
+        "water",
+        "beverage",
+        "drink"
+      ]
+    }, {
+      "name": "a computer",
+      "labels": [
+        "computer",
+        "laptop"
+      ]
+    }, {
+      "name": "a chair",
+      "labels": [
+        "chair",
+        "sitting device"
+      ]
+    }, {
+      "name": "headphones",
+      "labels": [
+        "headphones"
+      ]
+    }
+  ]
+}
