@@ -52,19 +52,6 @@ html, body {
   width: 760px;
 }
 
-#overlay {
-  color: #CCC;
-  height: 75px;
-  position: absolute;
-  padding: 20px;
-  vertical-align: middle;
-  text-align: center;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  background: rgba(0,0,0,0.75);
-}
-
 #message {
   color: #EEE;
   height: 75px;

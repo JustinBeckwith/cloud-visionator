@@ -1,14 +1,3 @@
-var label = null;
-var counter = null;
-var counterTime = 30000;
-var timeStarted = null;
-var currentItem = null;
-var items = null;
-
-var notAllowedItems = [
-  'mobile device'
-]
-
 var width = 320;
 var height = 0;
 var streaming = false;
@@ -22,16 +11,10 @@ var clearImage = false;
 var dotdotInterval = null;
 
 function onload() {
-  label = document.getElementById('label');
-  counter = document.getElementById('counter'); 
   okBtn = document.getElementById('okBtn');
   message = document.getElementById('message');
   startup();
-  
-  getData().then((data) => {
-    items = data.items;
-    newBring()
-  });;
+  newBring()
 
   okBtn.addEventListener('click',() => {
     message.style.display = 'none';
@@ -40,40 +23,10 @@ function onload() {
       clearImage = false;
     }
   });
-
-  // var ref = new Firebase("torrid-inferno-5288.firebaseio.com");
-  // var scores = ref.child("scores");
-  // scores.on('child_added', function(snapshot) {
-  //   var score = snapshot.val();
-  //   console.log(score);
-  // });
-  // var uid = scores.push({
-  //   email: "joe@google.com",
-  //   points: 243
-  // });
-
 }
 
 function newBring() {
-  var itemIndex = Math.floor(Math.random() * items.length);
-  currentItem = items[itemIndex];
-  label.innerText = "Bring me " + currentItem.name;
-  timeStarted = new Date();
-  updateTimer();
   photo.style.display = 'none';
-}
-
-function updateTimer() {
-  var timeNow = new Date();
-  var diffMilli = Math.abs(timeNow - timeStarted);
-  var milliLeft = counterTime - diffMilli;
-  var secLeft = Math.floor(milliLeft/1000);
-  counter.innerText = secLeft;
-  if (secLeft > 0) {
-    setTimeout(updateTimer, 250);
-  } else {
-    setTimeout(newBring, 3000);
-  }
 }
 
 function startup() {
@@ -138,7 +91,7 @@ function takepicture() {
   photo.style.height = video.offsetHeight;
   photo.style.display = "inline-block";
 
-  showMessage('Looking at the image...', 'We can tell by the pixels.', true);
+  showMessage('Detecting stuff. We can tell by the pixels o.0', true);
   
   var form = new FormData()
   form.append('pic', data);
@@ -151,31 +104,15 @@ function takepicture() {
   }).then((labels) => {
     console.log(labels);
     var found = false;
-    var subtext = labels.join(', ');
-    for (var i=0; i<labels.length; i++) {
-      var label = labels[i];
-      if (notAllowedItems.indexOf(label) >= 0) {
-        showMessage("Hey...  no using your phone :P", subtext);
-        found = true;
-      } else if (currentItem.labels.indexOf(label) >= 0) {
-        showMessage("YOU FOUND IT!  THANK YOU SO MUCH!", subtext);
-        found = true;
-      }
-    }
-
-    if (!found) {
-      showMessage('Nope, try again.', subtext);
-      clearImage = true;
-    }
-
+    var text = labels.join(', ');
+    showMessage(text);
+    clearImage = true;
   });
 }
 
-function showMessage(text, subtext, dotdot) {
+function showMessage(text, dotdot) {
   var messageText = document.getElementById('message-text');
-  var messageSubText = document.getElementById('message-subtext');
   messageText.innerText = text;
-  messageSubText.innerText = subtext;
   message.style.display = 'inline-block';
   if (dotdotInterval) {
     clearInterval(dotdotInterval);
@@ -192,10 +129,4 @@ function hideMessage() {
   if (dotdotInterval) {
     clearInterval(dotdotInterval);
   }
-}
-
-function getData() {
-  return fetch("data.json").then((response) => {
-      return response.json();
-  });
 }
